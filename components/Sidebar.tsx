@@ -349,7 +349,7 @@ export default function Sidebar({ layoutRows }: Props) {
 
             {designer && (
               <img
-                src={designer.avatarUrl}
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}${designer.avatarUrl}`}
                 alt={designer.name}
                 title={designer.name}
                 style={{ width: 22, height: 22, borderRadius: "50%", flexShrink: 0 }}

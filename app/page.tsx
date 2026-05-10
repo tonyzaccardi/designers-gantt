@@ -28,13 +28,16 @@ import ToastContainer from "@/components/ui/ToastContainer";
 const PASSWORD = "sweepdesignteam";
 
 function PasswordGate({ children }: { children: React.ReactNode }) {
-  const [unlocked, setUnlocked] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return sessionStorage.getItem("gantt_auth") === "1";
-  });
+  const [unlocked, setUnlocked] = useState(false);
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    if (sessionStorage.getItem("gantt_auth") === "1") setUnlocked(true);
+    setChecked(true);
+  }, []);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
 
+  if (!checked) return null;
   if (unlocked) return <>{children}</>;
 
   return (

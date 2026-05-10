@@ -52,7 +52,7 @@ export default function OooModal() {
               <div key={d.id}>
                 {/* Designer row */}
                 <div className="flex items-center gap-2 mb-2">
-                  <img src={d.avatarUrl} alt={d.name} className="w-6 h-6 rounded-full" />
+                  <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}${d.avatarUrl}`} alt={d.name} className="w-6 h-6 rounded-full" />
                   <span className="text-sm font-semibold" style={{ color: "#0a0b0d" }}>{d.name}</span>
                   <button
                     onClick={() => { setAddingFor(d.id); setAddForm({ startDate: "", endDate: "", note: "" }); }}

@@ -214,7 +214,7 @@ export default function ProjectDetailPanel() {
             <div className="flex items-center gap-2 mt-1 px-2">
               {designer && (
                 <div className="flex items-center gap-1.5 text-xs" style={{ color: "#5b616e" }}>
-                  <img src={designer.avatarUrl} alt={designer.name} className="rounded-full" style={{ width: 16, height: 16 }} />
+                  <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}${designer.avatarUrl}`} alt={designer.name} className="rounded-full" style={{ width: 16, height: 16 }} />
                   {designer.name}
                 </div>
               )}
