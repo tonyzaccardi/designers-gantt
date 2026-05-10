@@ -71,6 +71,11 @@ type GanttContextValue = {
   openContextMenu: (x: number, y: number, items: ContextMenuItem[]) => void;
   closeContextMenu: () => void;
 
+  // Activity log panel
+  activityLogOpen: boolean;
+  openActivityLog: () => void;
+  closeActivityLog: () => void;
+
   // Multi-select
   selectedBlockIds: string[];
   selectProjectBlocks: (blockIds: string[]) => void;
@@ -96,10 +101,14 @@ export function GanttProvider({ children }: { children: React.ReactNode }) {
   const [milestonePopover, setMilestonePopover] = useState<MilestonePopoverState>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState>(null);
   const [selectedBlockIds, setSelectedBlockIds] = useState<string[]>([]);
+  const [activityLogOpen, setActivityLogOpen] = useState(false);
   const [bulkDragDeltaDays, setBulkDragDeltaDays] = useState(0);
 
   const openProject = useCallback((id: string) => setOpenProjectId(id), []);
   const closeProject = useCallback(() => setOpenProjectId(null), []);
+
+  const openActivityLog = useCallback(() => setActivityLogOpen(true), []);
+  const closeActivityLog = useCallback(() => setActivityLogOpen(false), []);
 
   const openCreateProject = useCallback((domainId: string) => {
     setCreateProjectDomainId(domainId);
@@ -201,6 +210,9 @@ export function GanttProvider({ children }: { children: React.ReactNode }) {
         contextMenu,
         openContextMenu,
         closeContextMenu,
+        activityLogOpen,
+        openActivityLog,
+        closeActivityLog,
         selectedBlockIds,
         selectProjectBlocks,
         clearSelection,

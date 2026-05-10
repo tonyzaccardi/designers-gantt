@@ -194,3 +194,49 @@ export async function seedFirestore(data: {
     fsUpdateDomains(data.domains),
   ]);
 }
+
+// ─── Activity Log ─────────────────────────────────────────────────────────────
+
+import {
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  limit,
+  startAfter,
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
+import type { ActivityLogEntry } from "./types";
+
+const activityLogCol = collection(db, "activityLog");
+
+export function logActivity(entry: Omit<ActivityLogEntry, "id" | "timestamp">): void {
+  addDoc(activityLogCol, { ...entry, timestamp: serverTimestamp() }).catch(() => {});
+}
+
+export async function fetchActivityLog(
+  limitCount = 50
+): Promise<{ entries: ActivityLogEntry[]; lastDoc: QueryDocumentSnapshot | null }> {
+  const q = query(activityLogCol, orderBy("timestamp", "desc"), limit(limitCount));
+  const snap = await getDocs(q);
+  const entries = snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+    timestamp: d.data().timestamp?.toDate?.() ?? new Date(),
+  } as ActivityLogEntry));
+  return { entries, lastDoc: snap.docs[snap.docs.length - 1] ?? null };
+}
+
+export async function fetchMoreActivityLog(
+  after: QueryDocumentSnapshot,
+  limitCount = 50
+): Promise<{ entries: ActivityLogEntry[]; lastDoc: QueryDocumentSnapshot | null }> {
+  const q = query(activityLogCol, orderBy("timestamp", "desc"), startAfter(after), limit(limitCount));
+  const snap = await getDocs(q);
+  const entries = snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+    timestamp: d.data().timestamp?.toDate?.() ?? new Date(),
+  } as ActivityLogEntry));
+  return { entries, lastDoc: snap.docs[snap.docs.length - 1] ?? null };
+}

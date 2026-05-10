@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { useGanttContext } from "@/lib/ganttContext";
 import HelpModal from "@/components/ui/HelpModal";
+import ActivityLogPanel from "@/components/panels/ActivityLogPanel";
 import type { ZoomLevel } from "@/lib/types";
 import { useToastStore } from "@/lib/toastStore";
 
@@ -15,7 +16,7 @@ const ZOOM_LEVELS: { value: ZoomLevel; label: string }[] = [
 
 export default function TopBar() {
   const { zoom, setZoom, designers, domains, phaseTypes, filters, setFilter, undo, redo, undoStack, redoStack } = useStore();
-  const { openOooModal, openSettingsModal } = useGanttContext();
+  const { openOooModal, openSettingsModal, openActivityLog } = useGanttContext();
   const { addToast } = useToastStore();
   const [helpOpen, setHelpOpen] = useState(false);
 
@@ -142,6 +143,13 @@ export default function TopBar() {
             </svg>
           </IconBtn>
 
+          <IconBtn onClick={openActivityLog} title="Activity log">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M7.5 4.5V7.5l2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </IconBtn>
+
           <IconBtn onClick={() => setHelpOpen(true)} title="Help & shortcuts (?)">
             <span style={{ fontSize: 13, fontWeight: 700 }}>?</span>
           </IconBtn>
@@ -149,6 +157,7 @@ export default function TopBar() {
       </header>
 
       <HelpModal open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <ActivityLogPanel />
     </>
   );
 }

@@ -67,3 +67,13 @@ export type Milestone = {
   date: string;
   note?: string;
 };
+
+export type ActivityLogEntry = {
+  id: string;
+  timestamp: Date;
+  action: "created" | "updated" | "deleted" | "moved" | "reordered";
+  entityType: "project" | "phase" | "milestone" | "ooo" | "phaseType" | "milestoneType";
+  entityName: string;
+  details: string;
+  userName: string;
+};
