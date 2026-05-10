@@ -25,6 +25,49 @@ import ContextMenuComp from "@/components/ui/ContextMenu";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ToastContainer from "@/components/ui/ToastContainer";
 
+const PASSWORD = "sweepdesignteam";
+
+function PasswordGate({ children }: { children: React.ReactNode }) {
+  const [unlocked, setUnlocked] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem("gantt_auth") === "1";
+  });
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
+
+  if (unlocked) return <>{children}</>;
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#f5f6f8" }}>
+      <div style={{ background: "#fff", borderRadius: 16, padding: 32, width: 320, boxShadow: "0 4px 24px rgba(0,0,0,0.10)", display: "flex", flexDirection: "column", gap: 16 }}>
+        <p style={{ fontWeight: 600, fontSize: 16, color: "#0a0b0d", margin: 0 }}>Design Team Gantt</p>
+        <input
+          type="password"
+          placeholder="Password"
+          value={input}
+          autoFocus
+          style={{ padding: "8px 12px", borderRadius: 8, border: error ? "1.5px solid #ef4444" : "1.5px solid #dee1e6", fontSize: 14, outline: "none" }}
+          onChange={(e) => { setInput(e.target.value); setError(false); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              if (input === PASSWORD) { sessionStorage.setItem("gantt_auth", "1"); setUnlocked(true); }
+              else setError(true);
+            }
+          }}
+        />
+        {error && <p style={{ color: "#ef4444", fontSize: 13, margin: 0 }}>Incorrect password</p>}
+        <button
+          style={{ background: "#0052ff", color: "#fff", border: "none", borderRadius: 8, padding: "9px 0", fontWeight: 600, fontSize: 14, cursor: "pointer" }}
+          onClick={() => {
+            if (input === PASSWORD) { sessionStorage.setItem("gantt_auth", "1"); setUnlocked(true); }
+            else setError(true);
+          }}
+        >Enter</button>
+      </div>
+    </div>
+  );
+}
+
 function AppContent() {
   // Single ref for the one scroll container (handles both X and Y)
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -228,8 +271,10 @@ function AppContent() {
 
 export default function Home() {
   return (
-    <GanttProvider>
-      <AppContent />
-    </GanttProvider>
+    <PasswordGate>
+      <GanttProvider>
+        <AppContent />
+      </GanttProvider>
+    </PasswordGate>
   );
 }
