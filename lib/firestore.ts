@@ -157,6 +157,15 @@ export const fsUpdateDomains        = (items: Domain[])        => setDoc(doc(con
  * Writes all seed data to Firestore in batched writes.
  * Call once from a seed button. Safe to call again — overwrites with same IDs.
  */
+export async function batchUpdateProjects(updates: { id: string; data: Partial<Project> }[]) {
+  if (updates.length === 0) return;
+  const batch = writeBatch(db);
+  for (const { id, data } of updates) {
+    batch.update(doc(projectsCol, id), data as DocumentData);
+  }
+  await batch.commit();
+}
+
 export async function seedFirestore(data: {
   projects: Project[];
   phaseBlocks: PhaseBlock[];

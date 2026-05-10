@@ -28,7 +28,7 @@ import {
   fsCreatePhase,   fsUpdatePhase,   fsDeletePhase,
   fsCreateMilestone, fsUpdateMilestone, fsDeleteMilestone,
   fsCreateOoo,     fsUpdateOoo,     fsDeleteOoo,
-  fsUpdatePhaseTypes, fsUpdateMilestoneTypes, fsUpdateDesigners, fsUpdateDomains,
+  fsUpdatePhaseTypes, fsUpdateMilestoneTypes, fsUpdateDesigners, fsUpdateDomains, batchUpdateProjects,
   seedFirestore,
 } from "./firestore";
 
@@ -171,6 +171,7 @@ type StoreState = {
   addProject: (p: Omit<Project, "id" | "createdAt">) => void;
   updateProject: (id: string, patch: Partial<Project>) => void;
   deleteProject: (id: string) => void;
+  reorderProjects: (updates: { id: string; domainId: string; sortOrder: number }[]) => void;
 
   // PhaseBlock CRUD
   addPhaseBlock: (b: Omit<PhaseBlock, "id">) => void;
@@ -410,6 +411,18 @@ export const useStore = create<StoreState>()((set, get) => ({
         await Promise.all([fsDeleteProject(id), ...orphanBlocks, ...orphanMs]);
       }
     ),
+
+  reorderProjects: (updates) => {
+    set((s) => ({
+      projects: s.projects.map((p) => {
+        const u = updates.find((x) => x.id === p.id);
+        return u ? { ...p, domainId: u.domainId, sortOrder: u.sortOrder } : p;
+      }),
+    }));
+    batchUpdateProjects(updates.map(({ id, domainId, sortOrder }) => ({
+      id, data: { domainId, sortOrder },
+    }))).catch(() => {});
+  },
 
   // ── PhaseBlock ─────────────────────────────────────────────────────────────
   addPhaseBlock: (b) => {

@@ -15,7 +15,7 @@ const EMPTY: Partial<Project> = {};
 
 export default function CreateProjectModal() {
   const { createProjectOpen, createProjectDomainId, closeCreateProject } = useGanttContext();
-  const { domains, designers, addProject } = useStore();
+  const { domains, designers, projects, addProject } = useStore();
   const { addToast } = useToastStore();
 
   const [form, setForm] = useState<Partial<Project>>(EMPTY);
@@ -48,6 +48,8 @@ export default function CreateProjectModal() {
     if (!form.name?.trim() || !form.designerId || !domainId) return;
 
     const name = form.name.trim();
+    const domainProjects = projects.filter((p) => p.domainId === domainId);
+    const maxOrder = domainProjects.reduce((m, p) => Math.max(m, p.sortOrder ?? 0), -1);
     addProject({
       name: form.name.trim(),
       designerId: form.designerId,
@@ -58,6 +60,7 @@ export default function CreateProjectModal() {
       note: form.note,
       prdUrl: form.prdUrl,
       deadline: form.deadline,
+      sortOrder: maxOrder + 1,
     });
     addToast(`Created "${name}"`);
     handleClose();

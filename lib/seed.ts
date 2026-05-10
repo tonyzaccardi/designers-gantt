@@ -64,42 +64,42 @@ export const SEED_MILESTONE_TYPES: MilestoneType[] = [
 
 export const SEED_PROJECTS: Project[] = [
   // ── DISCLOSURE ───────────────────────────────────────────────────────────────
-  { id: "proj-1",  name: "CSRD versioning",                               designerId: "d-anna",    domainId: "dom-1", size: "L",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-2",  name: "Custom ESG",                                    designerId: "d-anna",    domainId: "dom-1", size: "XL",  status: "active", createdAt: "2026-01-01" },
-  { id: "proj-3",  name: "Sweepy scoring",                                designerId: "d-anna",    domainId: "dom-1", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-1",  name: "CSRD versioning",                               designerId: "d-anna",    domainId: "dom-1", size: "L",   status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-2",  name: "Custom ESG",                                    designerId: "d-anna",    domainId: "dom-1", size: "XL",  status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-3",  name: "Sweepy scoring",                                designerId: "d-anna",    domainId: "dom-1", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
   // ── CORE EXPERIENCE ──────────────────────────────────────────────────────────
-  { id: "proj-4",  name: "EF mapping",                                    designerId: "d-mariedo", domainId: "dom-2", size: "XL",  status: "active", createdAt: "2026-01-01" },
-  { id: "proj-5",  name: "Conversion unit",                               designerId: "d-mariedo", domainId: "dom-2", size: "M",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-6",  name: "Onboarding patterns",                           designerId: "d-anna",    domainId: "dom-2", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-7",  name: "EF versioning 2",                               designerId: "d-mariedo", domainId: "dom-2", size: "M",   status: "active", createdAt: "2026-01-01" },
+  { id: "proj-4",  name: "EF mapping",                                    designerId: "d-mariedo", domainId: "dom-2", size: "XL",  status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-5",  name: "Conversion unit",                               designerId: "d-mariedo", domainId: "dom-2", size: "M",   status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-6",  name: "Onboarding patterns",                           designerId: "d-anna",    domainId: "dom-2", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
+  { id: "proj-7",  name: "EF versioning 2",                               designerId: "d-mariedo", domainId: "dom-2", size: "M",   status: "active", createdAt: "2026-01-01", sortOrder: 3 },
   // ── DATA COLLECTION ──────────────────────────────────────────────────────────
-  { id: "proj-8",  name: "Respondant XP: Data comparison + Sweepy suggestions", designerId: "d-dom", domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-9",  name: "Respondant XP: Navigation",                    designerId: "d-dom",     domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-10", name: "Reviewer XP",                                   designerId: "d-dom",     domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-8",  name: "Respondant XP: Data comparison + Sweepy suggestions", designerId: "d-dom", domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-9",  name: "Respondant XP: Navigation",                    designerId: "d-dom",     domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-10", name: "Reviewer XP",                                   designerId: "d-dom",     domainId: "dom-3", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
   // ── SUPPLY CHAIN & INTELLIGENCE ──────────────────────────────────────────────
-  { id: "proj-11", name: "PCF Campaigns",                                 designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-12", name: "Supplier sidepanel + intelligence",             designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-13", name: "Lightweight PCF calculator for suppliers",      designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-14", name: "Supply chain x Intelligence hub",               designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-11", name: "PCF Campaigns",                                 designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-12", name: "Supplier sidepanel + intelligence",             designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-13", name: "Lightweight PCF calculator for suppliers",      designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
+  { id: "proj-14", name: "Supply chain x Intelligence hub",               designerId: "d-jane",    domainId: "dom-4", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 3 },
   // ── CORE PLATFORM ────────────────────────────────────────────────────────────
-  { id: "proj-15", name: "UAT",                                           designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-16", name: "Data lock",                                     designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-17", name: "Extrapolations",                                designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-15", name: "UAT",                                           designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-16", name: "Data lock",                                     designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-17", name: "Extrapolations",                                designerId: "d-jane",    domainId: "dom-5", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
   // ── ACT ──────────────────────────────────────────────────────────────────────
-  { id: "proj-18", name: "Actions library",                               designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-19", name: "Access Rights",                                 designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-20", name: "Navigation",                                    designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-21", name: "Export",                                        designerId: "d-anthony", domainId: "dom-6", size: "S",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-22", name: "Scaling",                                       designerId: "d-anthony", domainId: "dom-6", size: "M",   status: "active", createdAt: "2026-01-01" },
+  { id: "proj-18", name: "Actions library",                               designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-19", name: "Access Rights",                                 designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-20", name: "Navigation",                                    designerId: "d-anthony", domainId: "dom-6", size: "L",   status: "active", createdAt: "2026-01-01", sortOrder: 2 },
+  { id: "proj-21", name: "Export",                                        designerId: "d-anthony", domainId: "dom-6", size: "S",   status: "active", createdAt: "2026-01-01", sortOrder: 3 },
+  { id: "proj-22", name: "Scaling",                                       designerId: "d-anthony", domainId: "dom-6", size: "M",   status: "active", createdAt: "2026-01-01", sortOrder: 4 },
   // ── DASHBOARD ────────────────────────────────────────────────────────────────
-  { id: "proj-23", name: "Dashboards organization",                       designerId: "d-anthony", domainId: "dom-7", size: "S",   status: "active", createdAt: "2026-01-01" },
-  { id: "proj-24", name: "Multi-track widgets",                           designerId: "d-anthony", domainId: "dom-7", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-23", name: "Dashboards organization",                       designerId: "d-anthony", domainId: "dom-7", size: "S",   status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-24", name: "Multi-track widgets",                           designerId: "d-anthony", domainId: "dom-7", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 1 },
   // ── AI (empty) ───────────────────────────────────────────────────────────────
   // ── DESIGN OPS ───────────────────────────────────────────────────────────────
-  { id: "proj-25", name: "Design system",                                 designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-26", name: "Accessibility",                                 designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-27", name: "Design principles",                             designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01" },
-  { id: "proj-28", name: "Design patterns",                               designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01" },
+  { id: "proj-25", name: "Design system",                                 designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 0 },
+  { id: "proj-26", name: "Accessibility",                                 designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 1 },
+  { id: "proj-27", name: "Design principles",                             designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 2 },
+  { id: "proj-28", name: "Design patterns",                               designerId: "d-jessica", domainId: "dom-9", size: "TBD", status: "active", createdAt: "2026-01-01", sortOrder: 3 },
 ];
 
 export const SEED_PHASE_BLOCKS: PhaseBlock[] = [

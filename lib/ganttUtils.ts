@@ -100,7 +100,7 @@ export function buildLayoutRows(
         if (filters.designerId && p.designerId !== filters.designerId) return false;
         return true;
       })
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.name.localeCompare(b.name));
 
     if (domainProjects.length === 0) {
       rows.push({ kind: "empty-domain", domainId: domain.id });

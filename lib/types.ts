@@ -46,6 +46,7 @@ export type Project = {
   prdUrl?: string;
   deadline?: string;
   createdAt: string;
+  sortOrder: number;
 };
 
 export type PhaseBlock = {
