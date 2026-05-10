@@ -11,7 +11,7 @@ import {
 } from "date-fns";
 import type { PhaseBlock, ZoomLevel, Domain, Project } from "./types";
 
-export const GANTT_START = new Date("2026-01-01");
+export const GANTT_START = new Date(2026, 0, 1); // local midnight — avoids UTC parse offset
 export const GANTT_END = new Date("2026-12-31");
 export const GANTT_TOTAL_DAYS = 365;
 export const SIDEBAR_WIDTH = 280;
