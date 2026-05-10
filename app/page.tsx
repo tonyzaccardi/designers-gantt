@@ -24,6 +24,7 @@ import MilestonePopover from "@/components/gantt/MilestonePopover";
 import ContextMenuComp from "@/components/ui/ContextMenu";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ToastContainer from "@/components/ui/ToastContainer";
+import DashboardView from "@/components/dashboard/DashboardView";
 
 const PASSWORD = "sweepdesignteam";
 
@@ -101,6 +102,7 @@ function AppContent() {
   const {
     clearSelection, selectedBlockIds, closeProject,
     oooModalOpen, settingsModalOpen, phasePopover, openCreateProject,
+    view,
   } = useGanttContext();
 
   const [deleteSelectedConfirm, setDeleteSelectedConfirm] = useState(false);
@@ -233,23 +235,23 @@ function AppContent() {
         </div>
       )}
 
-      {/*
-        SINGLE scroll container — both sidebar and gantt scroll together vertically.
-        Sidebar is position:sticky left:0 so it stays visible on horizontal scroll.
-        No scroll sync needed — zero drift possible.
-      */}
       <div className="flex-1 overflow-hidden relative flex">
-        <div
-          ref={scrollRef} id="gantt-scroll-area"
-          style={{ flex: 1, overflow: "auto" }}
-        >
-          {/* Inner row: sidebar (sticky left) + gantt content */}
-          <div style={{ display: "flex", minWidth: SIDEBAR_WIDTH + ganttWidth }}>
-            <Sidebar layoutRows={layoutRows} />
-            <GanttArea layoutRows={layoutRows} />
-          </div>
-        </div>
-        <ProjectDetailPanel />
+        {view === "dashboard" ? (
+          <DashboardView />
+        ) : (
+          <>
+            <div
+              ref={scrollRef} id="gantt-scroll-area"
+              style={{ flex: 1, overflow: "auto" }}
+            >
+              <div style={{ display: "flex", minWidth: SIDEBAR_WIDTH + ganttWidth }}>
+                <Sidebar layoutRows={layoutRows} />
+                <GanttArea layoutRows={layoutRows} />
+              </div>
+            </div>
+            <ProjectDetailPanel />
+          </>
+        )}
       </div>
 
       <CreateProjectModal />

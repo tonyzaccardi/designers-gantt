@@ -71,6 +71,10 @@ type GanttContextValue = {
   openContextMenu: (x: number, y: number, items: ContextMenuItem[]) => void;
   closeContextMenu: () => void;
 
+  // View toggle
+  view: "timeline" | "dashboard";
+  setView: (v: "timeline" | "dashboard") => void;
+
   // Activity log panel
   activityLogOpen: boolean;
   openActivityLog: () => void;
@@ -101,6 +105,7 @@ export function GanttProvider({ children }: { children: React.ReactNode }) {
   const [milestonePopover, setMilestonePopover] = useState<MilestonePopoverState>(null);
   const [contextMenu, setContextMenu] = useState<ContextMenuState>(null);
   const [selectedBlockIds, setSelectedBlockIds] = useState<string[]>([]);
+  const [view, setView] = useState<"timeline" | "dashboard">("timeline");
   const [activityLogOpen, setActivityLogOpen] = useState(false);
   const [bulkDragDeltaDays, setBulkDragDeltaDays] = useState(0);
 
@@ -210,6 +215,8 @@ export function GanttProvider({ children }: { children: React.ReactNode }) {
         contextMenu,
         openContextMenu,
         closeContextMenu,
+        view,
+        setView,
         activityLogOpen,
         openActivityLog,
         closeActivityLog,

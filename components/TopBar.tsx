@@ -16,7 +16,7 @@ const ZOOM_LEVELS: { value: ZoomLevel; label: string }[] = [
 
 export default function TopBar() {
   const { zoom, setZoom, designers, domains, phaseTypes, filters, setFilter, undo, redo, undoStack, redoStack } = useStore();
-  const { openOooModal, openSettingsModal, openActivityLog } = useGanttContext();
+  const { openOooModal, openSettingsModal, openActivityLog, view, setView } = useGanttContext();
   const { addToast } = useToastStore();
   const [helpOpen, setHelpOpen] = useState(false);
 
@@ -56,6 +56,24 @@ export default function TopBar() {
               }}
             >
               {label}
+            </button>
+          ))}
+        </div>
+
+        {/* View toggle */}
+        <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: "#eef0f3" }}>
+          {(["timeline", "dashboard"] as const).map((v) => (
+            <button
+              key={v}
+              onClick={() => setView(v)}
+              className="px-3 py-1 rounded-md text-sm font-medium transition-all capitalize"
+              style={{
+                background: view === v ? "#fff" : "transparent",
+                color: view === v ? "#0a0b0d" : "#5b616e",
+                boxShadow: view === v ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+              }}
+            >
+              {v === "timeline" ? "Timeline" : "Dashboard"}
             </button>
           ))}
         </div>
