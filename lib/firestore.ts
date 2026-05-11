@@ -54,6 +54,13 @@ function snapToArray<T>(snap: QuerySnapshot<DocumentData>): T[] {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as T));
 }
 
+// Strip undefined values — Firestore setDoc rejects undefined fields
+function clean<T extends object>(obj: T): T {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v !== undefined)
+  ) as T;
+}
+
 // ─── Real-time subscription ───────────────────────────────────────────────────
 
 export type StoreUpdater = {
@@ -122,26 +129,26 @@ export function subscribeToAll(updaters: StoreUpdater): () => void {
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 
-export const fsCreateProject  = (p: Project)                           => setDoc(doc(projectsCol, p.id), p);
-export const fsUpdateProject  = (id: string, data: Partial<Project>)   => updateDoc(doc(projectsCol, id), data as DocumentData);
+export const fsCreateProject  = (p: Project)                           => setDoc(doc(projectsCol, p.id), clean(p));
+export const fsUpdateProject  = (id: string, data: Partial<Project>)   => updateDoc(doc(projectsCol, id), clean(data) as DocumentData);
 export const fsDeleteProject  = (id: string)                           => deleteDoc(doc(projectsCol, id));
 
 // ─── Phase blocks ─────────────────────────────────────────────────────────────
 
-export const fsCreatePhase  = (p: PhaseBlock)                          => setDoc(doc(phasesCol, p.id), p);
-export const fsUpdatePhase  = (id: string, data: Partial<PhaseBlock>)  => updateDoc(doc(phasesCol, id), data as DocumentData);
+export const fsCreatePhase  = (p: PhaseBlock)                          => setDoc(doc(phasesCol, p.id), clean(p));
+export const fsUpdatePhase  = (id: string, data: Partial<PhaseBlock>)  => updateDoc(doc(phasesCol, id), clean(data) as DocumentData);
 export const fsDeletePhase  = (id: string)                             => deleteDoc(doc(phasesCol, id));
 
 // ─── Milestones ───────────────────────────────────────────────────────────────
 
-export const fsCreateMilestone = (m: Milestone)                          => setDoc(doc(milestonesCol, m.id), m);
-export const fsUpdateMilestone = (id: string, data: Partial<Milestone>)  => updateDoc(doc(milestonesCol, id), data as DocumentData);
+export const fsCreateMilestone = (m: Milestone)                          => setDoc(doc(milestonesCol, m.id), clean(m));
+export const fsUpdateMilestone = (id: string, data: Partial<Milestone>)  => updateDoc(doc(milestonesCol, id), clean(data) as DocumentData);
 export const fsDeleteMilestone = (id: string)                            => deleteDoc(doc(milestonesCol, id));
 
 // ─── OOO Periods ──────────────────────────────────────────────────────────────
 
-export const fsCreateOoo = (o: OooPeriod)                            => setDoc(doc(oooCol, o.id), o);
-export const fsUpdateOoo = (id: string, data: Partial<OooPeriod>)    => updateDoc(doc(oooCol, id), data as DocumentData);
+export const fsCreateOoo = (o: OooPeriod)                            => setDoc(doc(oooCol, o.id), clean(o));
+export const fsUpdateOoo = (id: string, data: Partial<OooPeriod>)    => updateDoc(doc(oooCol, id), clean(data) as DocumentData);
 export const fsDeleteOoo = (id: string)                              => deleteDoc(doc(oooCol, id));
 
 // ─── Config arrays (written as whole arrays) ──────────────────────────────────
