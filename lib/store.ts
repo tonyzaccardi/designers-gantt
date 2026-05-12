@@ -31,6 +31,7 @@ import {
   fsUpdatePhaseTypes, fsUpdateMilestoneTypes, fsUpdateDesigners, fsUpdateDomains, batchUpdateProjects, logActivity,
   seedFirestore,
 } from "./firestore";
+import { getCurrentUserName } from "./currentUser";
 
 export type FilterState = {
   designerId: string | null;
@@ -374,7 +375,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   // ── PhaseType ──────────────────────────────────────────────────────────────
   addPhaseType: (p) => {
     const item = { ...p, id: crypto.randomUUID() };
-    logActivity({ action: "created", entityType: "phaseType", entityName: item.name, details: "", userName: "Anthony" });
+    logActivity({ action: "created", entityType: "phaseType", entityName: item.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseTypes: [...s.phaseTypes, item] }),
       () => fsUpdatePhaseTypes(get().phaseTypes)
@@ -382,7 +383,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   updatePhaseType: (id, patch) => {
     const _lpt = get().phaseTypes.find((p) => p.id === id);
-    if (_lpt) logActivity({ action: "updated", entityType: "phaseType", entityName: _lpt.name, details: "", userName: "Anthony" });
+    if (_lpt) logActivity({ action: "updated", entityType: "phaseType", entityName: _lpt.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseTypes: s.phaseTypes.map((p) => p.id === id ? { ...p, ...patch } : p) }),
       () => fsUpdatePhaseTypes(get().phaseTypes)
@@ -390,7 +391,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   deletePhaseType: (id) => {
     const _lpt = get().phaseTypes.find((p) => p.id === id);
-    if (_lpt) logActivity({ action: "deleted", entityType: "phaseType", entityName: _lpt.name, details: "", userName: "Anthony" });
+    if (_lpt) logActivity({ action: "deleted", entityType: "phaseType", entityName: _lpt.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseTypes: s.phaseTypes.filter((p) => p.id !== id) }),
       () => fsUpdatePhaseTypes(get().phaseTypes)
@@ -400,7 +401,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   // ── MilestoneType ──────────────────────────────────────────────────────────
   addMilestoneType: (m) => {
     const item = { ...m, id: crypto.randomUUID() };
-    logActivity({ action: "created", entityType: "milestoneType", entityName: item.name, details: "", userName: "Anthony" });
+    logActivity({ action: "created", entityType: "milestoneType", entityName: item.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestoneTypes: [...s.milestoneTypes, item] }),
       () => fsUpdateMilestoneTypes(get().milestoneTypes)
@@ -408,7 +409,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   updateMilestoneType: (id, patch) => {
     const _lmt = get().milestoneTypes.find((m) => m.id === id);
-    if (_lmt) logActivity({ action: "updated", entityType: "milestoneType", entityName: _lmt.name, details: "", userName: "Anthony" });
+    if (_lmt) logActivity({ action: "updated", entityType: "milestoneType", entityName: _lmt.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestoneTypes: s.milestoneTypes.map((m) => m.id === id ? { ...m, ...patch } : m) }),
       () => fsUpdateMilestoneTypes(get().milestoneTypes)
@@ -416,7 +417,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   deleteMilestoneType: (id) => {
     const _lmt = get().milestoneTypes.find((m) => m.id === id);
-    if (_lmt) logActivity({ action: "deleted", entityType: "milestoneType", entityName: _lmt.name, details: "", userName: "Anthony" });
+    if (_lmt) logActivity({ action: "deleted", entityType: "milestoneType", entityName: _lmt.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestoneTypes: s.milestoneTypes.filter((m) => m.id !== id) }),
       () => fsUpdateMilestoneTypes(get().milestoneTypes)
@@ -426,7 +427,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   // ── Project ────────────────────────────────────────────────────────────────
   addProject: (p) => {
     const item: Project = { ...p, id: crypto.randomUUID(), createdAt: new Date().toISOString().split("T")[0] };
-    logActivity({ action: "created", entityType: "project", entityName: item.name, details: "", userName: "Anthony" });
+    logActivity({ action: "created", entityType: "project", entityName: item.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ projects: [...s.projects, item] }),
       () => fsCreateProject(item)
@@ -434,7 +435,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   updateProject: (id, patch) => {
     const _lp = get().projects.find((p) => p.id === id);
-    if (_lp) logActivity({ action: "updated", entityType: "project", entityName: _lp.name, details: describeProjectPatch(patch, _lp, get()), userName: "Anthony" });
+    if (_lp) logActivity({ action: "updated", entityType: "project", entityName: _lp.name, details: describeProjectPatch(patch, _lp, get()), userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ projects: s.projects.map((p) => p.id === id ? { ...p, ...patch } : p) }),
       () => fsUpdateProject(id, patch)
@@ -442,7 +443,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   },
   deleteProject: (id) => {
     const _lp = get().projects.find((p) => p.id === id);
-    if (_lp) logActivity({ action: "deleted", entityType: "project", entityName: _lp.name, details: "", userName: "Anthony" });
+    if (_lp) logActivity({ action: "deleted", entityType: "project", entityName: _lp.name, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({
         projects:    s.projects.filter((p) => p.id !== id),
@@ -464,7 +465,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _srcDom = get().domains.find((d) => d.id === _rrp?.domainId);
     const _tgtDom = get().domains.find((d) => d.id === updates[0]?.domainId);
     const _cross = _srcDom?.id !== _tgtDom?.id;
-    if (_rrp) logActivity({ action: "reordered", entityType: "project", entityName: _rrp.name, details: _cross ? `Moved to ${_tgtDom?.name ?? ""}` : "Position changed", userName: "Anthony" });
+    if (_rrp) logActivity({ action: "reordered", entityType: "project", entityName: _rrp.name, details: _cross ? `Moved to ${_tgtDom?.name ?? ""}` : "Position changed", userName: getCurrentUserName() });
     set((s) => ({
       projects: s.projects.map((p) => {
         const u = updates.find((x) => x.id === p.id);
@@ -481,7 +482,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const item: PhaseBlock = { ...b, id: crypto.randomUUID() };
     const _lbp = get().projects.find((p) => p.id === item.projectId);
     const _lbpt = get().phaseTypes.find((pt) => pt.id === item.phaseTypeId);
-    logActivity({ action: "created", entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: `${fmtDate(item.startDate)} → ${fmtDate(item.endDate)}`, userName: "Anthony" });
+    logActivity({ action: "created", entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: `${fmtDate(item.startDate)} → ${fmtDate(item.endDate)}`, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseBlocks: [...s.phaseBlocks, item] }),
       () => fsCreatePhase(item)
@@ -493,7 +494,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _lbpt = get().phaseTypes.find((pt) => pt.id === _lb?.phaseTypeId);
     const _lbAction = (patch.startDate || patch.endDate) ? "moved" : "updated" as const;
     const _lbDetails = (patch.startDate || patch.endDate) ? `${fmtDate(patch.startDate ?? _lb?.startDate)} → ${fmtDate(patch.endDate ?? _lb?.endDate)}` : "";
-    if (_lb) logActivity({ action: _lbAction, entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: _lbDetails, userName: "Anthony" });
+    if (_lb) logActivity({ action: _lbAction, entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: _lbDetails, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseBlocks: s.phaseBlocks.map((b) => b.id === id ? { ...b, ...patch } : b) }),
       () => fsUpdatePhase(id, patch)
@@ -503,14 +504,14 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _lb = get().phaseBlocks.find((b) => b.id === id);
     const _lbp = get().projects.find((p) => p.id === _lb?.projectId);
     const _lbpt = get().phaseTypes.find((pt) => pt.id === _lb?.phaseTypeId);
-    if (_lb) logActivity({ action: "deleted", entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: "", userName: "Anthony" });
+    if (_lb) logActivity({ action: "deleted", entityType: "phase", entityName: `${_lbpt?.emoji ?? ""} ${_lbpt?.name ?? "Phase"} — ${_lbp?.name ?? ""}`, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseBlocks: s.phaseBlocks.filter((b) => b.id !== id) }),
       () => fsDeletePhase(id)
     );
   },
   deletePhaseBlocks: (ids) => {
-    logActivity({ action: "deleted", entityType: "phase", entityName: `${ids.length} phase${ids.length > 1 ? "s" : ""} deleted`, details: "", userName: "Anthony" });
+    logActivity({ action: "deleted", entityType: "phase", entityName: `${ids.length} phase${ids.length > 1 ? "s" : ""} deleted`, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ phaseBlocks: s.phaseBlocks.filter((b) => !ids.includes(b.id)) }),
       () => Promise.all(ids.map(fsDeletePhase)).then(() => void 0)
@@ -522,7 +523,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const item: Milestone = { ...m, id: crypto.randomUUID() };
     const _lmp = get().projects.find((p) => p.id === item.projectId);
     const _lmmt = get().milestoneTypes.find((mt) => mt.id === item.milestoneTypeId);
-    logActivity({ action: "created", entityType: "milestone", entityName: `${item.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: fmtDate(item.date), userName: "Anthony" });
+    logActivity({ action: "created", entityType: "milestone", entityName: `${item.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: fmtDate(item.date), userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestones: [...s.milestones, item] }),
       () => fsCreateMilestone(item)
@@ -534,7 +535,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _lmmt = get().milestoneTypes.find((mt) => mt.id === _lm?.milestoneTypeId);
     const _lmAction = patch.date ? "moved" : "updated" as const;
     const _lmDetails = patch.date ? `${fmtDate(_lm?.date)} → ${fmtDate(patch.date)}` : "";
-    if (_lm) logActivity({ action: _lmAction, entityType: "milestone", entityName: `${_lm.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: _lmDetails, userName: "Anthony" });
+    if (_lm) logActivity({ action: _lmAction, entityType: "milestone", entityName: `${_lm.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: _lmDetails, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestones: s.milestones.map((m) => m.id === id ? { ...m, ...patch } : m) }),
       () => fsUpdateMilestone(id, patch)
@@ -544,7 +545,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _lm = get().milestones.find((m) => m.id === id);
     const _lmp = get().projects.find((p) => p.id === _lm?.projectId);
     const _lmmt = get().milestoneTypes.find((mt) => mt.id === _lm?.milestoneTypeId);
-    if (_lm) logActivity({ action: "deleted", entityType: "milestone", entityName: `${_lm.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: "", userName: "Anthony" });
+    if (_lm) logActivity({ action: "deleted", entityType: "milestone", entityName: `${_lm.customLabel ?? _lmmt?.name ?? "Milestone"} — ${_lmp?.name ?? ""}`, details: "", userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ milestones: s.milestones.filter((m) => m.id !== id) }),
       () => fsDeleteMilestone(id)
@@ -555,7 +556,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   addOooPeriod: (o) => {
     const item: OooPeriod = { ...o, id: crypto.randomUUID() };
     const _loood = get().designers.find((d) => d.id === item.designerId);
-    logActivity({ action: "created", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: `${fmtDate(item.startDate)} → ${fmtDate(item.endDate)}`, userName: "Anthony" });
+    logActivity({ action: "created", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: `${fmtDate(item.startDate)} → ${fmtDate(item.endDate)}`, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ oooPeriods: [...s.oooPeriods, item] }),
       () => fsCreateOoo(item)
@@ -565,7 +566,7 @@ export const useStore = create<StoreState>()((set, get) => ({
     const _looo = get().oooPeriods.find((o) => o.id === id);
     const _loood = get().designers.find((d) => d.id === _looo?.designerId);
     const _loooDetails = (patch.startDate || patch.endDate) ? `${fmtDate(patch.startDate ?? _looo?.startDate)} → ${fmtDate(patch.endDate ?? _looo?.endDate)}` : "";
-    if (_looo) logActivity({ action: "updated", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: _loooDetails, userName: "Anthony" });
+    if (_looo) logActivity({ action: "updated", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: _loooDetails, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ oooPeriods: s.oooPeriods.map((o) => o.id === id ? { ...o, ...patch } : o) }),
       () => fsUpdateOoo(id, patch)
@@ -574,7 +575,7 @@ export const useStore = create<StoreState>()((set, get) => ({
   deleteOooPeriod: (id) => {
     const _looo = get().oooPeriods.find((o) => o.id === id);
     const _loood = get().designers.find((d) => d.id === _looo?.designerId);
-    if (_looo) logActivity({ action: "deleted", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: `${fmtDate(_looo.startDate)} → ${fmtDate(_looo.endDate)}`, userName: "Anthony" });
+    if (_looo) logActivity({ action: "deleted", entityType: "ooo", entityName: `${_loood?.name ?? "Designer"} OOO`, details: `${fmtDate(_looo.startDate)} → ${fmtDate(_looo.endDate)}`, userName: getCurrentUserName() });
     optimistic(get, set,
       (s) => ({ oooPeriods: s.oooPeriods.filter((o) => o.id !== id) }),
       () => fsDeleteOoo(id)

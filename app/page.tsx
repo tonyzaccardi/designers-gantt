@@ -25,48 +25,91 @@ import ContextMenuComp from "@/components/ui/ContextMenu";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import ToastContainer from "@/components/ui/ToastContainer";
 import DashboardView from "@/components/dashboard/DashboardView";
+import { SEED_DESIGNERS } from "@/lib/seed";
+import { setCurrentUser, getSavedDesignerId } from "@/lib/currentUser";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import type { Designer } from "@/lib/types";
 
 const PASSWORD = "sweepdesignteam";
 
 function PasswordGate({ children }: { children: React.ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
+  const [designers, setDesigners] = useState<Designer[]>(SEED_DESIGNERS);
+  const [designerId, setDesignerId] = useState("");
+
   useEffect(() => {
+    // Load designers from Firestore (fallback to seed)
+    getDoc(doc(db, "config", "designers"))
+      .then((snap) => { if (snap.exists()) setDesigners((snap.data().items ?? []) as Designer[]); })
+      .catch(() => {});
+
+    // Restore saved designer
+    const savedId = getSavedDesignerId();
+    if (savedId) setDesignerId(savedId);
+
     if (sessionStorage.getItem("gantt_auth") === "1") setUnlocked(true);
     setChecked(true);
   }, []);
-  const [input, setInput] = useState("");
-  const [error, setError] = useState(false);
+
+  function tryUnlock() {
+    if (input !== PASSWORD) { setError(true); return; }
+    if (!designerId) { setError(true); return; }
+    const des = designers.find((d) => d.id === designerId);
+    if (des) setCurrentUser(des.id, des.name);
+    sessionStorage.setItem("gantt_auth", "1");
+    setUnlocked(true);
+  }
 
   if (!checked) return null;
   if (unlocked) return <>{children}</>;
 
+  const noDesigner = !designerId;
+
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#f5f6f8" }}>
-      <div style={{ background: "#fff", borderRadius: 16, padding: 32, width: 320, boxShadow: "0 4px 24px rgba(0,0,0,0.10)", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ background: "#fff", borderRadius: 16, padding: 32, width: 320, boxShadow: "0 4px 24px rgba(0,0,0,0.10)", display: "flex", flexDirection: "column", gap: 14 }}>
         <p style={{ fontWeight: 600, fontSize: 16, color: "#0a0b0d", margin: 0 }}>Design Team Gantt</p>
+
+        {/* Designer picker */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <label style={{ fontSize: 12, fontWeight: 500, color: "#5b616e" }}>Who are you?</label>
+          <select
+            value={designerId}
+            onChange={(e) => setDesignerId(e.target.value)}
+            style={{ padding: "8px 10px", borderRadius: 8, border: (error && noDesigner) ? "1.5px solid #ef4444" : "1.5px solid #dee1e6", fontSize: 14, outline: "none", background: "#fff", color: designerId ? "#0a0b0d" : "#a8acb3" }}
+          >
+            <option value="" disabled>Select your name…</option>
+            {designers.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </select>
+        </div>
+
+        {/* Password */}
         <input
           type="password"
           placeholder="Password"
           value={input}
           autoFocus
-          style={{ padding: "8px 12px", borderRadius: 8, border: error ? "1.5px solid #ef4444" : "1.5px solid #dee1e6", fontSize: 14, outline: "none" }}
+          style={{ padding: "8px 12px", borderRadius: 8, border: (error && input !== PASSWORD) ? "1.5px solid #ef4444" : "1.5px solid #dee1e6", fontSize: 14, outline: "none" }}
           onChange={(e) => { setInput(e.target.value); setError(false); }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              if (input === PASSWORD) { sessionStorage.setItem("gantt_auth", "1"); setUnlocked(true); }
-              else setError(true);
-            }
-          }}
+          onKeyDown={(e) => { if (e.key === "Enter") tryUnlock(); }}
         />
-        {error && <p style={{ color: "#ef4444", fontSize: 13, margin: 0 }}>Incorrect password</p>}
+
+        {error && (
+          <p style={{ color: "#ef4444", fontSize: 13, margin: 0 }}>
+            {noDesigner ? "Please select your name" : "Incorrect password"}
+          </p>
+        )}
+
         <button
           style={{ background: "#0052ff", color: "#fff", border: "none", borderRadius: 8, padding: "9px 0", fontWeight: 600, fontSize: 14, cursor: "pointer" }}
-          onClick={() => {
-            if (input === PASSWORD) { sessionStorage.setItem("gantt_auth", "1"); setUnlocked(true); }
-            else setError(true);
-          }}
-        >Enter</button>
+          onClick={tryUnlock}
+        >
+          Enter
+        </button>
       </div>
     </div>
   );
