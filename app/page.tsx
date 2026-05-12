@@ -123,8 +123,6 @@ function AppContent() {
   const {
     domains, projects, phaseBlocks, collapsedDomains, filters,
     zoom, setZoom, undo, redo, deletePhaseBlocks,
-    sampleDataDismissed, dismissSampleData,
-    seedToFirestore,
     firestoreReady, setFirestoreReady,
     setProjects, setPhaseBlocks, setMilestones, setOooPeriods,
     setPhaseTypes, setMilestoneTypes, setDesigners, setDomains,
@@ -249,31 +247,6 @@ function AppContent() {
           <div className="flex flex-col items-center gap-3">
             <div className="w-8 h-8 rounded-full border-4 border-blue-200 border-t-blue-500 animate-spin" />
             <p className="text-sm font-medium" style={{ color: "#5b616e" }}>Connecting to database…</p>
-          </div>
-        </div>
-      )}
-
-      {!sampleDataDismissed && (
-        <div
-          className="flex items-center justify-between px-4 py-2 text-sm shrink-0"
-          style={{ background: "#fffbeb", borderBottom: "1px solid #fde68a", color: "#92400e" }}
-        >
-          <span>Sample data — feel free to delete it and add your real projects.</span>
-          <div className="flex items-center gap-2 ml-4 shrink-0">
-            <button
-              onClick={async () => { await seedToFirestore(); dismissSampleData(); }}
-              className="text-xs px-2 py-0.5 rounded-full font-medium"
-              style={{ background: "#f59e0b", color: "#fff" }}
-            >
-              Seed to Firestore
-            </button>
-            <button
-              onClick={dismissSampleData}
-              className="text-xs px-2 py-0.5 rounded-full"
-              style={{ background: "#fde68a", color: "#92400e" }}
-            >
-              Dismiss
-            </button>
           </div>
         </div>
       )}
